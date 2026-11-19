@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#fff7f5">
+<title>Little Roses | Letter Play</title>
+<style>
+:root{--ink:#49394a;--rose:#a64d70;--muted:#866f7d;--line:#eadde2}
+*{box-sizing:border-box}
+body{margin:0;background:linear-gradient(145deg,#fff8f5,#f8eff5);color:var(--ink);font-family:ui-rounded,"Arial Rounded MT Bold",system-ui,sans-serif;min-height:100vh}
+main{width:min(760px,100%);margin:auto;padding:20px 16px 34px}
+header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:20px}
+.brand{font-size:clamp(23px,5vw,30px);font-weight:900;color:var(--rose)}
+.sub{font-size:11px;letter-spacing:2px;color:#987b8b;font-weight:800;margin-top:2px;direction:ltr}
+.flower{font-size:32px}
+.intro{text-align:center;margin:8px 0 18px}
+.intro h1{font-size:clamp(22px,5vw,29px);margin:0 0 5px;color:#80516e}
+.intro p{margin:0;color:var(--muted);font-size:14px}
+.mode-wrap{display:flex;gap:9px;background:#f0e5eb;padding:6px;border-radius:18px;margin:0 auto 18px;max-width:440px}
+.mode{flex:1;border-radius:13px;background:transparent;color:#805b70;padding:13px 8px;min-height:48px;font-weight:850;border:0;font-size:15px}
+.mode.active{background:#fff;box-shadow:0 2px 9px #8b536018;color:var(--rose)}
+.card{position:relative;border:1px solid #f0dce4;border-radius:30px;padding:20px 16px 22px;background:#fce5e8;text-align:center;box-shadow:0 10px 28px #8b536014;min-height:340px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;transition:background .2s}
+.sparkle{font-size:25px;position:absolute;top:16px;left:20px}
+.letter{font-size:clamp(125px,31vw,190px);line-height:1;font-weight:950;letter-spacing:-5px;color:#8f4969;direction:ltr}
+.kind{font-size:12px;color:#8c7180;font-weight:800;letter-spacing:1px}
+.reveal{display:none;align-items:center;flex-direction:column;gap:5px;margin-top:4px;animation:pop .25s ease}
+.reveal.show{display:flex}
+.picture{font-size:clamp(52px,13vw,76px);line-height:1.1}
+.word{font-size:clamp(25px,6vw,34px);font-weight:900;direction:ltr}
+.sound{font-size:15px;color:#765d6c;font-weight:750;direction:ltr}
+@keyframes pop{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:translateY(0)}}
+.actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:14px 0 10px}
+button{font:inherit;cursor:pointer;border:0;border-radius:16px;padding:13px 12px;font-weight:850;font-size:15px;min-height:49px}
+.primary{background:#a64d70;color:white;box-shadow:0 4px 12px #a64d7030}
+.secondary{background:white;color:#81536a;border:1px solid #e9d6df}
+.random{width:100%;background:#f3e7f0;color:#80516e}
+.small-note{text-align:center;color:#9b8491;font-size:12px;margin:12px 0 0}
+.choose{margin-top:20px}
+.choose summary{list-style:none;cursor:pointer;text-align:center;color:#80516e;font-weight:850;padding:12px;border-radius:15px;background:#fff9;border:1px solid #eadde2}
+.choose summary::-webkit-details-marker{display:none}
+.alphabet{display:grid;grid-template-columns:repeat(7,1fr);gap:7px;margin-top:12px;direction:ltr}
+.letter-btn{padding:8px 2px;min-height:44px;border-radius:12px;background:#fff;color:#76566b;border:1px solid #eadde2;font-size:19px}
+.letter-btn:active{background:#f7dfe6}
+.teacher{margin-top:18px}
+.teacher summary{cursor:pointer;color:#92778a;font-size:13px;text-align:center;padding:8px}
+.hint{display:none;background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px;margin-top:8px;line-height:1.7;font-size:14px}
+.hint.show{display:block}
+footer{text-align:center;color:#9b8491;font-size:11px;margin-top:22px}
+@media(max-width:380px){.alphabet{grid-template-columns:repeat(6,1fr)}main{padding:16px 12px 28px}.card{min-height:315px}}
+</style>
+</head>
+<body>
+<main>
+<header><div><div class="brand">Little Roses 🌷</div><div class="sub">LETTER PLAY</div></div><div class="flower">🌼</div></header>
+<div class="intro"><h1>בואי נשחק באותיות!</h1><p>מגלים אות, אומרים את הצליל ומוצאים מילה 🌈</p></div>
+<div class="mode-wrap" role="group" aria-label="בחירת סוג אות">
+<button class="mode active" id="upperMode">אותיות גדולות</button>
+<button class="mode" id="lowerMode">אותיות קטנות</button>
+</div>
+<section class="card" id="card" aria-live="polite">
+<div class="sparkle">✨</div>
+<div class="kind" id="kind">BIG LETTER</div>
+<div class="letter" id="letter">A</div>
+<div class="reveal" id="reveal">
+<div class="picture" id="picture">🍎</div>
+<div class="word" id="word">Apple</div>
+<div class="sound" id="sound">Sound: /æ/</div>
+</div>
+</section>
+<div class="actions">
+<button class="secondary" id="revealBtn">🌟 לגלות מילה</button>
+<button class="primary" id="nextBtn">🎲 אות נוספת</button>
+</div>
+<button class="random" id="surpriseBtn">🎉 הפתיעי אותי באות!</button>
+<p class="small-note" id="gentlePrompt">אפשר להגיד יחד את שם האות ואת הצליל שלה.</p>
+<details class="choose">
+<summary>🌸 רוצה לבחור אות בעצמך?</summary>
+<div class="alphabet" id="alphabet"></div>
+</details>
+<details class="teacher">
+<summary>הערות למורה</summary>
+<div class="hint" id="hint">
+כדאי לתת זמן להתבונן ולנסות, בלי למדוד הצלחה או מהירות. אפשר לשאול בעדינות:
+<ul>
+<li>את מכירה את האות הזאת?</li>
+<li>בואי נגיד יחד את הצליל.</li>
+<li>איזו מילה באנגלית מתחילה בצליל הזה?</li>
+</ul>
+האות X מוצגת עם Box, שבה הצליל /ks/ מופיע בסוף המילה.
+</div>
+</details>
+<footer>Learning grows one little letter at a time · Little Roses English</footer>
+</main>
+<script>
+const letters=[
+["A","a","Apple","🍎","/æ/","/eɪ/"],["B","b","Ball","⚽","/b/","/biː/"],["C","c","Cat","🐱","/k/","/siː/"],["D","d","Dog","🐶","/d/","/diː/"],["E","e","Egg","🥚","/ɛ/","/iː/"],["F","f","Fish","🐟","/f/","/ɛf/"],["G","g","Goat","🐐","/g/","/dʒiː/"],["H","h","Hat","🎩","/h/","/eɪtʃ/"],["I","i","Insect","🐞","/ɪ/","/aɪ/"],["J","j","Jam","🍓","/dʒ/","/dʒeɪ/"],["K","k","Kite","🪁","/k/","/keɪ/"],["L","l","Lion","🦁","/l/","/ɛl/"],["M","m","Moon","🌙","/m/","/ɛm/"],["N","n","Nest","🪺","/n/","/ɛn/"],["O","o","Orange","🍊","/ɒ/","/əʊ/"],["P","p","Pen","🖊️","/p/","/piː/"],["Q","q","Queen","👑","/kw/","/kjuː/"],["R","r","Rabbit","🐰","/r/","/ɑː/"],["S","s","Sun","☀️","/s/","/ɛs/"],["T","t","Tiger","🐯","/t/","/tiː/"],["U","u","Umbrella","☂️","/ʌ/","/juː/"],["V","v","Van","🚐","/v/","/viː/"],["W","w","Whale","🐳","/w/","/ˈdʌbəl.juː/"],["X","x","Box","📦","/ks/","/ɛks/"],["Y","y","Yo-yo","🪀","/j/","/waɪ/"],["Z","z","Zebra","🦓","/z/","/zɛd/"]];
+const colors=["#fce5e8","#fcebd9","#e4f1e7","#e5ecfa","#f4e5f6","#fff1d6"];
+let index=0,mode="upper";
+const $=id=>document.getElementById(id);
+function render(){
+ const item=letters[index],isUpper=mode==="upper";
+ $("letter").textContent=item[isUpper?0:1];
+ $("kind").textContent=isUpper?"BIG LETTER":"small letter";
+ $("picture").textContent=item[3];$("word").textContent=item[2];$("sound").textContent="Sound: "+item[4];
+ $("card").style.background=colors[index%colors.length];
+ $("reveal").classList.remove("show");
+ $("revealBtn").textContent="🌟 לגלות מילה";
+ document.querySelectorAll(".letter-btn").forEach((b,i)=>b.classList.toggle("active",i===index));
+}
+function setMode(next){mode=next;$("upperMode").classList.toggle("active",mode==="upper");$("lowerMode").classList.toggle("active",mode==="lower");render()}
+letters.forEach((item,i)=>{const b=document.createElement("button");b.className="letter-btn";b.textContent=item[0];b.addEventListener("click",()=>{index=i;render();document.querySelector(".choose").open=false});$("alphabet").appendChild(b)});
+$("upperMode").addEventListener("click",()=>setMode("upper"));
+$("lowerMode").addEventListener("click",()=>setMode("lower"));
+$("nextBtn").addEventListener("click",()=>{index=(index+1)%letters.length;render()});
+$("surpriseBtn").addEventListener("click",()=>{let n;do{n=Math.floor(Math.random()*letters.length)}while(n===index);index=n;render()});
+$("revealBtn").addEventListener("click",()=>{const r=$("reveal");r.classList.toggle("show");$("revealBtn").textContent=r.classList.contains("show")?"🙈 להסתיר את המילה":"🌟 לגלות מילה"});
+document.querySelector(".teacher summary").addEventListener("click",()=>{$("hint").classList.toggle("show")});
+render();
+</script>
+</body>
+</html>
